@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="5.0">
+  <display-name>w20230614</display-name>
+  <!-- xml : 확장마크업 랭귀지 <마크> -->
+  <!-- xmlns:xsi 어떤 마크를 사용하겠다.(약속) -->
+  <!-- html : xml인데 http 통신에 사용될 마크들로 약속되어 있음 -->
+  <servlet>
+  	<servlet-name>studentDetail</servlet-name>
+  	<servlet-class>w20230614.L03JDBCStudentDetail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>studentDetail</servlet-name>
+  	<url-pattern>/student/detail.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>studentList</servlet-name>
+  	<servlet-class>w20230614.L02JDBCStudentList</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>studentList</servlet-name>
+  	<url-pattern>/student/list.do</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+  <!-- welcom-file-list : 서버에 아무런 리소스도 요청하지 않으면 그때 반환하는 리소스 -->
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+</web-app>

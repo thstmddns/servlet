@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>톰캣 웹앱 개발</title>
+</head>
+<body>
+	<h1>톰캣 웹앱 안녕!</h1>
+	<h2>동적페이지</h2>
+	<ol>
+		<li><a href="./hello.do">동적페이지 호출</a></li>
+		<li><a href="./hello.do?a=14&b=33">a(13)xb(14)=?</a></li>
+		<li>			
+			<form action="./hello.do" method="post">
+				<input type="text" name="a" value="33"/>
+				<input type="text" name="b" value="55"/>
+				<button type="submit">제출</button>
+			</form>
+		</li>
+		<li><a href="./student/list.do">JDBC로 오라클에 있는 학생리스트 호출</a></li>
+		<li><a href=""></a></li>
+	</ol>
+	<h2>Get과 Post 방식(method) </h2>
+	<p>파라미터를 url 인코딩으로 변경해서 전달하다(url인코딩으로 파라미터의 값을 변경하는 것을 추천 )</p>
+	<ol>
+		<li>Get : a태그로 파라미터를 요청하는방식
+			<ul>
+				<li>링크 : 다른 사이트로 이동 (절대주소 http://~~)</li>
+				<li>네비게이션 : 내 사이트 내에서 다른 사이트로 이동 (상대주소 /, ./)</li>
+				<li>주소 공유 </li>
+				<li>검색 (form method=get)</li>
+				<li>**파라미터가 주소의 일부다 </li>
+				<li>파라미터를 ? 이하에 쿼리스트링으로 포함한다. 브라우저마다 다르지만 길이제한이 있다.</li>
+			</ul>	
+		</li>
+		<li>Post : 양식(form)제출로 파라미터를 요청하는 방식
+			<ul>
+				<li>로그인</li>
+				<li>회원가입</li>
+				<li>결제</li>
+				<li>게시판 생성,수정</li>
+				<li>파일업로드</li>
+				<li>
+					form 에 서브밋 버튼을 누를때 action 작성한 리소스를 요청
+					파라미터는 input 요소에 작성된 값을 요청본문해더에 포함해서 보낸다.
+				</li>
+				<li>**파라미터가 동적페이지에서 처리할 대상 (url에 파라미터가 포함되어 있지않다.)</li>
+				<li>요청해더본문에 쿼리스트링으로 파라미터를 포함한다.
+				(파라미터의 길이제한이 없다,Get보다 통신이 조금 느리다,보안이 강화된다.)</li>
+			</ul>
+		</li>
+	</ol>
+	<h2>http 통신과 status 상태</h2>
+	<ul>
+		<li>status 100 : http로 소켓통신을 할때 (메세지를 주고 받을때)</li>
+		<li>status 200 : 성공</li>
+		<li>status 300 : 리다이렉트 상태 (서버에서 서버의 리소스를 요청,로그인을 요청 -> 로그인 처리 -> (index,login) 302)</li>
+		<li>status 400 : 클라이언트가 잘못 요청했을 때 
+			<ul>
+				<li>404 : 해당 path의 리소스가 존재하지 않음</li>
+				<li>405 : get방식으로 요청해야 하는데 post로 요청했을 때</li>
+			</ul>
+		</li>
+		<li>status 500 : 개발자가 예외처리를 하지 않을 때 or 서버오류가 있을 때</li>
+	</ul>
+	<h2>url 구조와 리소스</h2>
+	<p>서버에 저장된 리소스(공유될수 있는 자료)를 요청하는데 사용된다.</p>
+	<p>https://naver.com/book/detail.do?bookId=123123</p>
+	<ul>
+		<li>https : 통신규약 http(웹) 통신을 하겠다.</li>
+		<li>naver.com : 서버주소 (도메인 : ip 를 랩핑하는 것)</li>
+		<li>/book/detail.do : 서버에서 리소스의 주소 (path)</li>
+		<li>?bookId=123123&a=10&b=20 : 쿼리스트링 파라미터를 포함하는 문자열
+			<ul>
+				<li>동적리소스에서 처리해야할 내역을 전달
+					(123123 아이디의 책을 찾아서 detail.do에 출력해줘)</li>
+				<li>url 인코딩으로 파리미터 값을 처리한다.</li>
+				<li>값이 너무 긴 것을 전달할 수 없다. </li>
+			</ul>
+		</li>
+	</ul>
+	<h2>동적, 정적 리소스</h2>
+	<h3>정적 리소스</h3>
+	<p>요청하는 리소스가 변화가 없는것 img,동영상,html,css,js ... (웹서버(아파치)가 처리하는 리소스)</p>
+	<h3>동적 리소스</h3>
+	<p>요청하는 리소스가 실행되어 변하는 것 
+	(db접속 (jdbc)해서 조회,수정,삭제,등록를 하는 것 )</p>
+	<ul>
+		<li>톰캣 java servlet (컴파일), jsp JavaServletPate(인터프리터)</li>
+		<li>php,asp,</li>
+		<li>python django</li>
+		<li>node.js(v8)</li>
+	</ul>
+	<h2>CRUD Create Read Update Delete</h2>
+	<ul>
+		<li>Read : 리스트(페이징, 정렬, 검색), 상세, 수정양식</li>
+		<li>Create : 등록 액션</li>
+		<li>Update : 수정 액션</li>
+		<li>Delete : 삭제 액션</li>
+	</ul>
+	
+</body>
+</html>
